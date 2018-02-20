@@ -45,7 +45,7 @@ def main():
 def run_test_practice_problem3():
     """ Tests the   practice_problem3  function. """
     ####################################################################
-    # TODO: 2. Implement this TEST function.
+    # DONE: 2. Implement this TEST function.
     #   It TESTS the  practice_problem3  function defined below.
     #   Include at least ** 2 ** ADDITIONAL tests beyond those we wrote.
     #
@@ -135,12 +135,13 @@ def run_test_practice_problem3():
     #             that they are adequate tests!
     ####################################################################
 
-    tests = [st.SimpleTestCase(practice_problem3,
-                       [-2, 2, 1.3],
-                       [1, 7]),
+    test = [st.SimpleTestCase(practice_problem3,
+                       [-2, 0, 1.3],
+                       []),
             st.SimpleTestCase(practice_problem3,
-                       [-5, 3, 0.25],
-                       [-5, 0, 1])]
+                       [-5, 2, 1],
+                       [-5, 1])]
+    st.SimpleTestCase.run_tests('practice_problem3', test)
 
 
 def practice_problem3(start, n, threshold):

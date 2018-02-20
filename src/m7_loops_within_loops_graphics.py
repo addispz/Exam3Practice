@@ -5,8 +5,8 @@ This problem provides practice at:
   ***  LOOPS WITHIN LOOPS in 2D GRAPHICS problems.  ***
 
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Patrick Addis.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 ########################################################################
 # Students:
@@ -29,6 +29,7 @@ Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
 ########################################################################
 
 import rosegraphics as rg
+import math
 
 
 def main():
@@ -89,7 +90,7 @@ def hourglass(window, n, point, radius, color):
     a color that rosegraphics understands.
     """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #       We provided some tests for you (above).
     # ------------------------------------------------------------------
     ####################################################################
@@ -101,6 +102,48 @@ def hourglass(window, n, point, radius, color):
     #    DIFFICULTY:      8
     #    TIME ESTIMATE:  25 minutes (warning: this problem is challenging)
     # ------------------------------------------------------------------
+
+    for k in range(n):
+        new_center = rg.Point(point.x - (radius * k), point.y - (math.sqrt((2 * radius) ** 2 - radius ** 2)) * k)
+
+        new_circle = rg.Circle(new_center, radius)
+        new_circle.fill_color = color
+        new_circle.attach_to(window)
+
+        start = rg.Point(new_center.x - radius, new_center.y)
+        end = rg.Point(new_center.x + radius, new_center.y)
+
+        center_line = rg.Line(start, end)
+        center_line.attach_to(window)
+        window.render()
+
+        for j in range(k + 1):
+            next_center = rg.Point(new_circle.center.x + (j * 2 * radius), new_circle.center.y)
+
+            next_circle = rg.Circle(next_center, radius)
+            next_circle.fill_color = color
+            next_circle.attach_to(window)
+            window.render()
+
+        window.render()
+
+    for k in range(n):
+        new_center = rg.Point(point.x + (radius * k), point.y + (math.sqrt((2 * radius) ** 2 - radius ** 2)) * k)
+
+        new_circle = rg.Circle(new_center, radius)
+        new_circle.fill_color = color
+        new_circle.attach_to(window)
+        window.render()
+
+        for j in range(k + 1):
+            next_center = rg.Point(new_circle.center.x - (j * 2 * radius), new_circle.center.y)
+
+            next_circle = rg.Circle(next_center, radius)
+            next_circle.fill_color = color
+            next_circle.attach_to(window)
+            window.render()
+
+        window.render()
 
 
 def run_test_many_hourglasses():
@@ -163,7 +206,7 @@ def many_hourglasses(window, square, m, colors):
     each of which denotes a color that rosegraphics understands.
     """
     # ------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #       We provided some tests for you (above).
     # ------------------------------------------------------------------
     ####################################################################
@@ -180,6 +223,24 @@ def many_hourglasses(window, square, m, colors):
     #    TIME ESTIMATE:  20 minutes (warning: this problem is challenging)
     # ------------------------------------------------------------------
 
+    radius = square.length_of_each_side / 2
+    center = square.center
+    glass_center = square.center
+    square.attach_to(window)
+    corner1 = rg.Point(center.x - radius, center.y - radius)
+    corner2 = rg.Point(center.x + radius, center.y + radius)
+
+    for k in range(m):
+        rectangle = rg.Rectangle(corner1, corner2)
+        rectangle.attach_to(window)
+
+        corner1 = rg.Point(corner1.x + (2 + k * 2) * radius, corner1.y - 1.732 * radius)
+        corner2 = rg.Point(corner2.x + (4 + k * 2) * radius, corner2.y + 1.732 * radius)
+
+    for k in range(m):
+        hourglass(window, k + 1, glass_center, radius, colors[k % len(colors)])
+
+        glass_center = rg.Point(glass_center.x + (3 + k * 2) * radius, glass_center.y)
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
