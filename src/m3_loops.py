@@ -227,6 +227,11 @@ def practice_problem3(start, n, threshold):
 
     list_numbers = []
     while len(list_numbers) < n:
+        if n == 0:
+            return []
+        if threshold > math.sqrt(2):
+            for k in range(start, n):
+                list_numbers = list_numbers + [k]
         if math.sin(start) + math.cos(start) > threshold:
             list_numbers.append(start)
         start = start + 1
